@@ -14,22 +14,29 @@ const StyledFriend = styled.div`
 `
 
 
-return (
-  <StyledFriend>
-  <div className="App">
-    <p>
-      Read through the instructions in the README.md file to build your NASA
-      app! Have fun <span role="img" aria-label='go!'>🚀</span>!
-    </p>
-  <h1>{nasaData.title}</h1>
-  <p>{nasaData.date}</p>
-  <div className='body'>
-    <img src={nasaData.url} alt={'Nebula'}/>
-  </div>
-  <p>{nasaData.explanation}</p>
-  </div>
-  </StyledFriend>
-);
+function App() {
+  const [nasaData, setNasaData] = useState([]);
 
+  useEffect(() => {
+    axios.get(`https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY`)
+    .then(res => {
+      // console.log(res.data)
+      setNasaData(res.data)
+    })
+    .catch(err => {
+      console.error(err)
+    })
+  }, [])
+
+  return (
+    <div className="App">
+      <p>
+        Read through the instructions in the README.md file to build your NASA
+        app! Have fun <span role="img" aria-label='go!'>🚀</span>!
+        {nasaData && <Photo data = {nasaData} /> }
+      </p>
+    </div>
+  );
+}
 
 export default App;
